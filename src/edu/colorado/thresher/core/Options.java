@@ -199,8 +199,8 @@ public class Options {
   @stringOpt(description = "usage: -android_jar <path to jar file for version of android libraries>", _default = "android/android-2.3_annotated.jar")
   public static String ANDROID_JAR = "android/android-2.3_annotated.jar";
 
-  @stringOpt(description = "Class containing entrypoint method for analysis", _default = "Main")
-  public static String MAIN_CLASS = "Main";
+  @stringOpt(description = "Class containing entrypoint method for analysis", _default = "MainClass.java")
+  public static String MAIN_CLASS = "MainClass.java";
   
   @stringOpt(description = "Entrypoint method for analysis", _default = "main")
   public static String MAIN_METHOD = "main";
@@ -265,7 +265,7 @@ public class Options {
         if (arg.equals("help"))
           dumpHelpInfo();
         else if (arg.equals("regressions")) {
-          APP = Main.REGRESSION;
+          APP = MainClass.REGRESSION;
           index++;
           continue;
         }

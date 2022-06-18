@@ -433,13 +433,13 @@ public class SimplePathTerm implements PathTerm {
   public AST toZ3AST(Context ctx, boolean boolVar) {
     try {
       if (this.isIntegerConstant()) {
-        return ctx.MkInt(this.constant);
+        return ctx.mkInt(this.constant);
         //return Util.makeIntConst(this.constant, ctx);
       } else if (boolVar) {
-        return ctx.MkBoolConst(this.toString());
+        return ctx.mkBoolConst(this.toString());
         //return Util.makePropositionalVar(this.toString(), ctx);
       } else {
-        return ctx.MkIntConst(this.toString());
+        return ctx.mkIntConst(this.toString());
         //return Util.makeIntVar(this.toString(), ctx);
       }
     } catch (Z3Exception e) {

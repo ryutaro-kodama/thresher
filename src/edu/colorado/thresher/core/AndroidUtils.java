@@ -22,13 +22,13 @@ import org.xml.sax.SAXException;
 
 import com.ibm.wala.classLoader.ClassFileModule;
 import com.ibm.wala.ipa.callgraph.CGNode;
-import com.ibm.wala.shrikeCT.ClassReader;
-import com.ibm.wala.shrikeCT.ConstantPoolParser;
-import com.ibm.wala.shrikeCT.ConstantValueReader;
-import com.ibm.wala.shrikeCT.InvalidClassFileException;
+import com.ibm.wala.shrike.shrikeCT.ClassReader;
+import com.ibm.wala.shrike.shrikeCT.ConstantPoolParser;
+import com.ibm.wala.shrike.shrikeCT.ConstantValueReader;
+import com.ibm.wala.shrike.shrikeCT.InvalidClassFileException;
 import com.ibm.wala.util.collections.HashMapFactory;
 import com.ibm.wala.util.collections.HashSetFactory;
-import com.ibm.wala.util.shrike.ShrikeClassReaderHandle;
+import com.ibm.wala.core.util.shrike.ShrikeClassReaderHandle;
 
 
 public class AndroidUtils {

@@ -2,7 +2,8 @@ package edu.colorado.thresher.core;
 
 import com.ibm.wala.cfg.ShrikeCFG;
 import com.ibm.wala.classLoader.IBytecodeMethod;
-import com.ibm.wala.shrikeCT.InvalidClassFileException;
+import com.ibm.wala.shrike.shrikeBT.IInstruction;
+import com.ibm.wala.shrike.shrikeCT.InvalidClassFileException;
 import com.ibm.wala.ssa.IR;
 import com.ibm.wala.ssa.SSABuilder;
 import com.ibm.wala.ssa.SSACFG;
@@ -39,9 +40,9 @@ public class ShrikeIR extends IR {
   private static SSAInstruction[] makeNewInstructions(IBytecodeMethod method, SSAOptions options) {
     _symbolTable = new SymbolTable(method.getNumberOfParameters());
     ShrikeCFG shrikeCFG = (ShrikeCFG) ShrikeCFG.make(method);
-    com.ibm.wala.shrikeBT.IInstruction[] shrikeInstructions = null;
+    com.ibm.wala.shrike.shrikeBT.IInstruction[] shrikeInstructions = null;
     try {
-      shrikeInstructions = method.getInstructions();
+      shrikeInstructions = (IInstruction[]) method.getInstructions();
     } catch (InvalidClassFileException e) {
       System.out.println("Bad bytecodes " + e);
       System.exit(1);

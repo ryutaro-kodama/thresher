@@ -67,7 +67,7 @@ public class FakeMapContextSelector implements ContextSelector {
     ContextSelector appSelector = null;
     SSAContextInterpreter appInterpreter = null;
     
-    //options.setSelector(new Main.AndroidMethodTargetSelector(options.getMethodTargetSelector(), summaries, AndroidUIChecker.findMethods));
+    //options.setSelector(new MainClass.java.AndroidMethodTargetSelector(options.getMethodTargetSelector(), summaries, AndroidUIChecker.findMethods));
     options.setSelector(new LenientClassHierarchyClassTargetSelector(cha));
     
     return new ZeroXContainerCFABuilder(cha, options, cache, appSelector, appInterpreter, ZeroXInstanceKeys.ALLOCATIONS 

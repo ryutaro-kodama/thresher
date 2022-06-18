@@ -276,7 +276,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
         }
         
         try {
-          Solver solver = ctx.MkSolver();
+          Solver solver = ctx.mkSolver();
           for (AtomicPathConstraint constraint : qry.constraints) {
             Util.Print(constraint);
             for (SimplePathTerm term : constraint.getTerms()) {
@@ -284,17 +284,17 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
             }
             // give constraints to the prover
             AST ast = constraint.toZ3AST(ctx);
-            solver.Assert((BoolExpr) ast);
+            solver.add((BoolExpr) ast);
             //ctx.assertCnstr(ast);
           }
   
           // get assignments for the free environment variables from the theorem prover
-          if (solver.Check() == Status.SATISFIABLE) {
-            Model model = solver.Model();
+          if (solver.check() == Status.SATISFIABLE) {
+            Model model = solver.getModel();
             // map from free variables -> the value they should be assigned according to the prover
             Map<SimplePathTerm,String> termValMap = HashMapFactory.make();
             for (SimplePathTerm term : termVarMap.keySet()) {
-              termValMap.put(term, "" + model.Evaluate((Expr) termVarMap.get(term), false)); // get model and convert to string 
+              termValMap.put(term, "" + model.evaluate((Expr) termVarMap.get(term), false)); // get model and convert to string
             }
             
             System.out.println("Can fail if: ");

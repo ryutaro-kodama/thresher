@@ -35,8 +35,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.ibm.wala.classLoader.IClass;
+import com.ibm.wala.classLoader.Language;
 import com.ibm.wala.demandpa.alg.ContextSensitiveStateMachine;
 import com.ibm.wala.demandpa.alg.DemandRefinementPointsTo;
 import com.ibm.wala.demandpa.alg.DemandRefinementPointsTo.PointsToResult;
@@ -53,15 +55,7 @@ import com.ibm.wala.demandpa.alg.statemachine.StateMachineFactory;
 import com.ibm.wala.demandpa.flowgraph.IFlowLabel;
 import com.ibm.wala.demandpa.util.MemoryAccessMap;
 import com.ibm.wala.demandpa.util.PABasedMemoryAccessMap;
-import com.ibm.wala.ipa.callgraph.AnalysisCache;
-import com.ibm.wala.ipa.callgraph.AnalysisOptions;
-import com.ibm.wala.ipa.callgraph.AnalysisScope;
-import com.ibm.wala.ipa.callgraph.CGNode;
-import com.ibm.wala.ipa.callgraph.CallGraph;
-import com.ibm.wala.ipa.callgraph.CallGraphBuilder;
-import com.ibm.wala.ipa.callgraph.CallGraphBuilderCancelException;
-import com.ibm.wala.ipa.callgraph.CallGraphStats;
-import com.ibm.wala.ipa.callgraph.Entrypoint;
+import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.impl.Util;
 import com.ibm.wala.ipa.callgraph.propagation.HeapModel;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
@@ -77,9 +71,10 @@ import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.types.MethodReference;
 import com.ibm.wala.types.TypeReference;
 import com.ibm.wala.util.CancelException;
+import com.ibm.wala.util.MonitorUtil;
 import com.ibm.wala.util.NullProgressMonitor;
-import com.ibm.wala.util.Predicate;
-import com.ibm.wala.util.ProgressMaster;
+//import com.ibm.wala.util.Predicate;
+import com.ibm.wala.core.util.ProgressMaster;
 import com.ibm.wala.util.collections.HashMapFactory;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Pair;
@@ -97,12 +92,12 @@ public class DemandCastChecker {
   // maximum number of casts to check
   private static final int MAX_CASTS = Integer.MAX_VALUE;
 
-  /**
-   * @param args
-   * @throws CancelException
-   * @throws IllegalArgumentException
-   * @throws IOException
-   */
+//  /**
+//   * @param args
+//   * @throws CancelException
+//   * @throws IllegalArgumentException
+//   * @throws IOException
+//   */
   /*
   public static void main(String[] args) throws IllegalArgumentException, CancelException, IOException {
     try {
@@ -188,17 +183,17 @@ public class DemandCastChecker {
       throws IllegalArgumentException, CancelException {
     CallGraph retCG = null;
     PointerAnalysis retPA = null;
-    final AnalysisCache cache = new AnalysisCache();
+    final AnalysisCache cache = new AnalysisCacheImpl();
     CallGraphBuilder builder;
     if (CHEAP_CG) {
-      builder = Util.makeZeroCFABuilder(options, cache, cha, scope);
+      builder = Util.makeZeroCFABuilder(Language.JAVA, options, cache, cha, scope);
       // we want vanilla 0-1 CFA, which has one abstract loc per allocation
-      heapModel = Util.makeVanillaZeroOneCFABuilder(options, cache, cha, scope);
+      heapModel = Util.makeVanillaZeroOneCFABuilder(Language.JAVA, options, cache, cha, scope);
     } else {
       builder = Util.makeZeroOneContainerCFABuilder(options, cache, cha, scope);
       heapModel = (HeapModel) builder;
     }
-    ProgressMaster master = ProgressMaster.make(new NullProgressMonitor(), 360000, false);
+    MonitorUtil.IProgressMonitor master = ProgressMaster.make(new NullProgressMonitor(), 360000, false);
     //master.setMillisPerWorkItem(360000);
     master.beginTask("runSolver", 1);
     try {
