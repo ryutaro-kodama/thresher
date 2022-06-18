@@ -16,11 +16,11 @@ import com.ibm.wala.ipa.callgraph.propagation.HeapModel;
 import com.ibm.wala.ipa.callgraph.propagation.PointerKey;
 import com.ibm.wala.ipa.callgraph.propagation.StaticFieldKey;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
-import com.ibm.wala.shrikeBT.BinaryOpInstruction;
-import com.ibm.wala.shrikeBT.ConditionalBranchInstruction;
-import com.ibm.wala.shrikeBT.IComparisonInstruction.Operator;
-import com.ibm.wala.shrikeBT.IConditionalBranchInstruction;
-import com.ibm.wala.shrikeBT.IUnaryOpInstruction;
+import com.ibm.wala.shrike.shrikeBT.BinaryOpInstruction;
+import com.ibm.wala.shrike.shrikeBT.ConditionalBranchInstruction;
+import com.ibm.wala.shrike.shrikeBT.IComparisonInstruction.Operator;
+import com.ibm.wala.shrike.shrikeBT.IConditionalBranchInstruction;
+import com.ibm.wala.shrike.shrikeBT.IUnaryOpInstruction;
 import com.ibm.wala.ssa.IR;
 import com.ibm.wala.ssa.SSAArrayLengthInstruction;
 import com.ibm.wala.ssa.SSAArrayLoadInstruction;
@@ -115,7 +115,7 @@ public class PathQuery implements IQuery {
     Solver tmpSolver = null;
     try {
       tmpCtx = new Context();
-      tmpSolver = tmpCtx.MkSolver();
+      tmpSolver = tmpCtx.mkSolver();
     } catch (Z3Exception e) {
       Util.Assert(false, "problem with z3 " + e);      
     }
@@ -128,7 +128,7 @@ public class PathQuery implements IQuery {
   }
   
   // if the context is not copied, this will clear all memory Z3 is using
-  public void dispose() { ctx.Dispose(); } //ctx.delete(); }
+  public void dispose() { ctx.close(); } //ctx.delete(); }
 
   // constructor for deep copying only
   // PathQuery(TreeSet<AtomicPathConstraint> constraints, Set<PointerVariable>
@@ -314,7 +314,7 @@ public class PathQuery implements IQuery {
    * { Z3AST[] constraintsArr = new Z3AST[constraints.size()]; int i = 0; for
    * (AtomicPathConstraint constraint : constraints) {
    * pathVars.addAll(constraint.getVars()); Z3AST z3Constraint =
-   * constraint.toZ3AST(ctx); constraintsArr[i++] = z3Constraint; } Z3AST
+   * constraint.toZ3ASTConstant(ctx); constraintsArr[i++] = z3Constraint; } Z3AST
    * pathConstraint = ctx.mkAnd(constraintsArr); Z3AST newAssumption =
    * Util.makeFreshPropositionalVar(ctx);
    * ctx.assertCnstr(ctx.mkImplies(newAssumption, pathConstraint));
@@ -336,9 +336,9 @@ public class PathQuery implements IQuery {
       }
       try {
         //AST pathConstraint = ctx.mkAnd(constraintsArr);
-        BoolExpr pathConstraint = ctx.MkAnd(constraintsArr);
+        BoolExpr pathConstraint = ctx.mkAnd(constraintsArr);
         BoolExpr newAssumption = Util.makeFreshPropositionalVar(ctx);
-        solver.Assert(ctx.MkImplies(newAssumption, pathConstraint));
+        solver.add(ctx.mkImplies(newAssumption, pathConstraint));
         //ctx.assertCnstr(ctx.mkImplies(newAssumption, pathConstraint));
         this.currentPathAssumption = newAssumption;
       } catch (Z3Exception e) {
@@ -1185,7 +1185,7 @@ public class PathQuery implements IQuery {
     Expr[] assumptionsArr = new Expr[] { currentPathAssumption };
     Status status = null;
     try {
-      status = solver.Check(assumptionsArr);
+      status = solver.check(assumptionsArr);
     } catch (Z3Exception e) {
       Util.Assert(false, "problem with z3 " + e);
     }
@@ -1462,7 +1462,7 @@ public class PathQuery implements IQuery {
     //Util.Pre(!calleeMethod.equals(callerMethod), "recursion should be handled elsewhere");
     if (Options.DEBUG)
       Util.Debug("substituting actuals for formals in path query");
-    for (int i = 0; i < instr.getNumberOfParameters(); i++) {
+    for (int i = 0; i < instr.getNumberOfPositionalParameters(); i++) {
       PointerVariable formal = new ConcretePointerVariable(calleeMethod, i + 1, this.heapModel);
       int use = instr.getUse(i);
       if (i == -1) continue; // insurance for WALA crash that sometimes happens here
@@ -1497,7 +1497,7 @@ public class PathQuery implements IQuery {
     if (Options.DEBUG) Util.Debug("substituting formals for actuals in path query");
     
     SymbolTable tbl = callerMethod.getIR().getSymbolTable();
-    for (int i = 0; i < instr.getNumberOfParameters(); i++) {
+    for (int i = 0; i < instr.getNumberOfPositionalParameters(); i++) {
       int useNum = instr.getUse(i);
       
       PointerVariable actual = new ConcretePointerVariable(callerMethod, useNum, this.heapModel);
@@ -1680,32 +1680,32 @@ public class PathQuery implements IQuery {
       
       int i = 0;
       for (AtomicPathConstraint constraint : this.constraints) {
-        //conjuncts0[i++] = constraint.toZ3AST(tmp);
+        //conjuncts0[i++] = constraint.toZ3ASTConstant(tmp);
         conjuncts0[i++] = (BoolExpr) constraint.toZ3AST(tmp);
       }
       i = 0;
       for (AtomicPathConstraint constraint : other.constraints) {
-        //conjuncts1[i++] = constraint.toZ3AST(tmp);
+        //conjuncts1[i++] = constraint.toZ3ASTConstant(tmp);
         conjuncts1[i++] = (BoolExpr) constraint.toZ3AST(tmp);
       }
    
       //final Z3AST implLHS = tmp.mkAnd(conjuncts0);
       //final Z3AST implRHS = tmp.mkAnd(conjuncts1);
-      final BoolExpr implLHS = tmp.MkAnd(conjuncts0), implRHS = tmp.MkAnd(conjuncts1);
+      final BoolExpr implLHS = tmp.mkAnd(conjuncts0), implRHS = tmp.mkAnd(conjuncts1);
       // ask: is there some assignment for which LHS does not imply RHS?
-      Solver s = tmp.MkSolver();
-      s.Assert(tmp.MkNot(tmp.MkImplies(implLHS, implRHS)));
+      Solver s = tmp.mkSolver();
+      s.add(tmp.mkNot(tmp.mkImplies(implLHS, implRHS)));
       //tmp.assertCnstr(tmp.mkNot(tmp.mkImplies(implLHS, implRHS)));
       // if not, then we know LHS => RHS for all values
       //boolean result = !tmp.check();
-      result = s.Check();
+      result = s.check();
 
       if (result == Status.UNKNOWN) {
         Util.Assert(false, "z3 decidability problem");
         return false;
       } else {
         boolean boolResult = result == Status.UNSATISFIABLE;
-        tmp.Dispose();
+        tmp.close();
         return boolResult;
       }
     } catch (Z3Exception e) {

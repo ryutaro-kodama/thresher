@@ -127,7 +127,7 @@ public class IPathInfo { // implements Comparable {
     this.query = query;
     this.initialQuery = query.deepCopy();
     this.piecewiseGraph = new PiecewiseGraph();
-    Util.Assert(query instanceof CombinedPathAndPointsToQuery, "found bad query type " + query.getClass());
+//    Util.Assert(query instanceof CombinedPathAndPointsToQuery, "found bad query type " + query.getClass());
     addContextualConstraints(currentNode);
   }
 
@@ -148,7 +148,7 @@ public class IPathInfo { // implements Comparable {
     this.initialQuery = initialQuery;
     this.piecewiseGraph = piecewiseGraph;
     // TODO: TMP; debug only
-    Util.Assert(query instanceof CombinedPathAndPointsToQuery, "found bad query type " + query.getClass());
+//    Util.Assert(query instanceof CombinedPathAndPointsToQuery, "found bad query type " + query.getClass());
   }
 
   public IPathInfo deepCopy() {

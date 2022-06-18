@@ -25,7 +25,7 @@ import com.ibm.wala.types.TypeReference;
 import com.ibm.wala.util.collections.HashMapFactory;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Pair;
-import com.ibm.wala.util.strings.Atom;
+import com.ibm.wala.core.util.strings.Atom;
 
 public class ClassSynthesizer {
 
@@ -315,7 +315,7 @@ public class ClassSynthesizer {
   private String synthesizeImplementsOrExtendsClass(String newClassName, IClass toImplement, 
                                                     List<String> methods, Set<Atom> dontSynthesize) {
     String sig = synthesizeClassSignature(toImplement, newClassName);
-    List<String> newMethods = synthesizeClassMethods(toImplement.getDeclaredMethods(), dontSynthesize);
+    List<String> newMethods = synthesizeClassMethods((Collection<IMethod>) toImplement.getDeclaredMethods(), dontSynthesize);
     newMethods.addAll(methods);
     newMethods.add(synthesizeEmptyConstructor(newClassName));
     TypeName type = toImplement.getReference().getName();

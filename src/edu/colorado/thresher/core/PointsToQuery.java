@@ -429,7 +429,7 @@ public class PointsToQuery implements IQuery {
     HeapGraph hg = this.depRuleGenerator.getHeapGraph();
     
     Map<PointerVariable,PointerVariable> subMap = HashMapFactory.make();
-    for (int i = 0; i < instr.getNumberOfParameters(); i++) {
+    for (int i = 0; i < instr.getNumberOfPositionalParameters(); i++) {
       int argUse = instr.getUse(i);
       PointerVariable arg = new ConcretePointerVariable(callerMethod, argUse, this.depRuleGenerator.getHeapModel());
       PointerVariable formal = new ConcretePointerVariable(calleeMethod, i + 1, this.depRuleGenerator.getHeapModel());
@@ -672,7 +672,7 @@ public class PointsToQuery implements IQuery {
     Util.Debug("binding formals to actuals: caller " + callerMethod + "; callee: " + calleeMethod);
     Set<PointerVariable> formalsAssigned = HashSetFactory.make();
 
-    for (int i = 0; i < instr.getNumberOfParameters(); i++) {
+    for (int i = 0; i < instr.getNumberOfPositionalParameters(); i++) {
       PointerVariable arg = new ConcretePointerVariable(callerMethod, instr.getUse(i), this.depRuleGenerator.getHeapModel());
       PointerVariable formal = new ConcretePointerVariable(calleeMethod, i + 1, this.depRuleGenerator.getHeapModel());
       

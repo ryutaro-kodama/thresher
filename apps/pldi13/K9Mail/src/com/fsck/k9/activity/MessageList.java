@@ -2193,7 +2193,7 @@ public class MessageList
          *            The position of the item within the adapter's data set of
          *            the item whose view we want.
          * @param view
-         *            Main view component to alter. Never <code>null</code>.
+         *            MainClass.java view component to alter. Never <code>null</code>.
          * @param holder
          *            Convenience view holder - eases access to <tt>view</tt>
          *            child views. Never <code>null</code>.

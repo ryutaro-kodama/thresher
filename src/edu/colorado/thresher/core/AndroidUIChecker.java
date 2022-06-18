@@ -34,7 +34,7 @@ import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Pair;
 import com.ibm.wala.util.graph.traverse.DFS;
 
-import edu.colorado.thresher.core.Main.UIQuery;
+import edu.colorado.thresher.core.MainClass.UIQuery;
 
 public class AndroidUIChecker {
   
@@ -376,8 +376,8 @@ public class AndroidUIChecker {
       handlers.add(button.eventHandlerName);
     }
     
-    IClassHierarchy cha = Main.setupAndroidScopeAndEntryPoints(scope, entryPoints, handlers, appPath);
-    return Main.buildCallGraphAndPointsToAnalysis(scope, cha, entryPoints, appPath);
+    IClassHierarchy cha = MainClass.setupAndroidScopeAndEntryPoints(scope, entryPoints, handlers, appPath);
+    return MainClass.buildCallGraphAndPointsToAnalysis(scope, cha, entryPoints, appPath);
   }
   
   // hardcoded class declarations

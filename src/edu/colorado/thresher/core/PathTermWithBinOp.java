@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.ibm.wala.ipa.callgraph.propagation.PointerKey;
-import com.ibm.wala.shrikeBT.BinaryOpInstruction;
+import com.ibm.wala.shrike.shrikeBT.BinaryOpInstruction;
 import com.ibm.wala.types.FieldReference;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.microsoft.z3.AST;
@@ -217,16 +217,16 @@ public class PathTermWithBinOp implements PathTerm {
     try {
       switch (this.binOp) {
         case ADD:
-          return ctx.MkAdd(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
+          return ctx.mkAdd(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
           //return ctx.mkAdd(binOpLHS, binOpRHS);
         case SUB:
-          return ctx.MkSub(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
+          return ctx.mkSub(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
           //return ctx.mkSub(binOpLHS, binOpRHS);
         case MUL:
-          return ctx.MkMul(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
+          return ctx.mkMul(new ArithExpr[] { (ArithExpr) binOpLHS, (ArithExpr) binOpRHS } );
           //return ctx.mkMul(binOpLHS, binOpRHS);
         case DIV:
-          return ctx.MkDiv((ArithExpr) binOpLHS, (ArithExpr) binOpRHS);
+          return ctx.mkDiv((ArithExpr) binOpLHS, (ArithExpr) binOpRHS);
           //return ctx.mkDiv(binOpLHS, binOpRHS);
         case AND:
           Util.Unimp("bw and");
@@ -252,7 +252,7 @@ public class PathTermWithBinOp implements PathTerm {
           return null;
         }
         case REM:
-          return ctx.MkRem((IntExpr) binOpLHS, (IntExpr) binOpRHS);
+          return ctx.mkRem((IntExpr) binOpLHS, (IntExpr) binOpRHS);
           //return ctx.mkRem(binOpLHS, binOpRHS);
         default:
           Util.Unimp("unsupported bin op " + binOp);

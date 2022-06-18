@@ -46,8 +46,8 @@ import com.ibm.wala.ipa.cha.ClassHierarchy;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.ipa.modref.ArrayLengthKey;
 import com.ibm.wala.ipa.modref.ModRef;
-import com.ibm.wala.shrikeBT.BinaryOpInstruction;
-import com.ibm.wala.shrikeBT.ConditionalBranchInstruction;
+import com.ibm.wala.shrike.shrikeBT.BinaryOpInstruction;
+import com.ibm.wala.shrike.shrikeBT.ConditionalBranchInstruction;
 import com.ibm.wala.ssa.IR;
 import com.ibm.wala.ssa.SSAArrayStoreInstruction;
 import com.ibm.wala.ssa.SSACFG;
@@ -66,11 +66,10 @@ import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.collections.Pair;
 import com.ibm.wala.util.graph.Graph;
 import com.ibm.wala.util.intset.BitVectorIntSet;
-import com.ibm.wala.util.intset.IntIterator;
 import com.ibm.wala.util.intset.MutableIntSet;
 import com.ibm.wala.util.intset.OrdinalSet;
-import com.ibm.wala.viz.DotUtil;
-import com.ibm.wala.viz.PDFViewUtil;
+import com.ibm.wala.util.viz.DotUtil;
+import com.ibm.wala.core.viz.PDFViewUtil;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Z3Exception;
@@ -216,7 +215,6 @@ public class Util {
    * insta
    * 
    * @param key
-   * @param nodeNum
    * @return
    */
   public static PointerVariable makePointerVariable(Object key) {
@@ -256,7 +254,6 @@ public class Util {
   /**
    * does an instruction in ir write key locally (not via a callee)?
    * 
-   * @param ir
    * @return
    */
   public static boolean writesKeyLocally(CGNode node, PointerKey key, HeapModel hm, HeapGraph hg, ClassHierarchy cha) {
@@ -1340,7 +1337,7 @@ public class Util {
    */
 
   public static BoolExpr makeFreshPropositionalVar(Context ctx) throws Z3Exception {
-    return ctx.MkBoolConst(newTmpVar());
+    return ctx.mkBoolConst(newTmpVar());
     //return makePropositionalVar(newTmpVar(), ctx);
   }
 

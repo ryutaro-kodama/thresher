@@ -26,7 +26,7 @@ public class DisjunctivePathTerm implements PathTerm {
       for (AtomicPathConstraint disjunct : this.disjuncts) {
         z3Disjuncts[i++] = (BoolExpr) disjunct.toZ3AST(ctx);
       }
-      return ctx.MkOr(z3Disjuncts);
+      return ctx.mkOr(z3Disjuncts);
     } catch (Z3Exception e) {
       Util.Assert(false, "problem with z3 " + e);
       return null;

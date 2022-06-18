@@ -51,7 +51,7 @@ import com.ibm.wala.types.annotations.Annotation;
 import com.ibm.wala.util.collections.HashMapFactory;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.intset.OrdinalSet;
-import com.ibm.wala.util.strings.Atom;
+import com.ibm.wala.core.util.strings.Atom;
 
 public class AbstractDependencyRuleGenerator {
 
@@ -139,7 +139,7 @@ public class AbstractDependencyRuleGenerator {
    * return a view of the rules for this CGNode that does not include rules
    * containing refuted edges
    * 
-   * @param node
+   * @param rules
    * @return
    */
   private Set<DependencyRule> filterOutRefuted(Set<DependencyRule> rules) {

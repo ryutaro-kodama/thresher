@@ -11,7 +11,8 @@ import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
 import com.ibm.wala.ipa.callgraph.propagation.LocalPointerKey;
 import com.ibm.wala.ipa.callgraph.propagation.PointerKey;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
-import com.ibm.wala.shrikeBT.ConditionalBranchInstruction;
+import com.ibm.wala.shrike.shrikeBT.ConditionalBranchInstruction;
+import com.ibm.wala.shrike.shrikeBT.IConditionalBranchInstruction;
 import com.ibm.wala.types.FieldReference;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.microsoft.z3.AST;
@@ -334,17 +335,17 @@ public class AtomicPathConstraint extends AbstractConstraint implements Constrai
       switch (this.op) {
         case LT:
           //return ctx.mkLT(z3LHS, z3RHS);
-          return ctx.MkLt((ArithExpr) z3LHS, (ArithExpr) z3RHS);
+          return ctx.mkLt((ArithExpr) z3LHS, (ArithExpr) z3RHS);
         case LE:
-          return ctx.MkLe((ArithExpr) z3LHS, (ArithExpr) z3RHS);
+          return ctx.mkLe((ArithExpr) z3LHS, (ArithExpr) z3RHS);
         case GT:
-          return ctx.MkGt((ArithExpr) z3LHS, (ArithExpr) z3RHS);
+          return ctx.mkGt((ArithExpr) z3LHS, (ArithExpr) z3RHS);
         case GE:
-          return ctx.MkGe((ArithExpr) z3LHS, (ArithExpr) z3RHS);
+          return ctx.mkGe((ArithExpr) z3LHS, (ArithExpr) z3RHS);
         case EQ:
-          return ctx.MkEq((Expr) z3LHS, (Expr) z3RHS);
+          return ctx.mkEq((Expr) z3LHS, (Expr) z3RHS);
         case NE:
-          return ctx.MkNot(ctx.MkEq((Expr) z3LHS, (Expr) z3RHS));
+          return ctx.mkNot(ctx.mkEq((Expr) z3LHS, (Expr) z3RHS));
         default:
           Util.Assert(false, "Unsupported op!");
       }
