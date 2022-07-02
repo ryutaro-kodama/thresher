@@ -607,22 +607,23 @@ public class WALACFGUtil {
   public static CGNode getFakeWorldClinitNode(CallGraph cg) {
     // find fakeWorldClinit node (class initializers)
     if (fakeWorldClinit == null) {
-      Iterator<CGNode> iter = cg.iterator();
-      while (iter.hasNext()) {
-        CGNode node = iter.next();
-        if (node.getMethod().toString().equals("synthetic < Primordial, Lcom/ibm/wala/FakeRootClass, fakeWorldClinit()V >")) {
-          fakeWorldClinit = node;
-        }
-        /*
-         * // note: this didn't work... CallSiteReference ref = iter.next();
-         * System.err.println(ref.getDeclaredTarget().toString()); if
-         * (ref.getDeclaredTarget().toString().equals(
-         * "< Primordial, Lcom/ibm/wala/FakeRootClass, fakeWorldClinit()V >")) {
-         * fakeWorldClinit =
-         * cg.getNodes(ref.getDeclaredTarget()).iterator().next(); }
-         */
-      }
-      Util.Assert(fakeWorldClinit != null, "Couldn't find fakeWorldClinit!");
+      fakeWorldClinit = cg.getFakeWorldClinitNode();
+//      Iterator<CGNode> iter = cg.iterator();
+//      while (iter.hasNext()) {
+//        CGNode node = iter.next();
+//        if (node.getMethod().toString().equals("synthetic < Primordial, Lcom/ibm/wala/FakeRootClass, fakeWorldClinit()V >")) {
+//          fakeWorldClinit = node;
+//        }
+//        /*
+//         * // note: this didn't work... CallSiteReference ref = iter.next();
+//         * System.err.println(ref.getDeclaredTarget().toString()); if
+//         * (ref.getDeclaredTarget().toString().equals(
+//         * "< Primordial, Lcom/ibm/wala/FakeRootClass, fakeWorldClinit()V >")) {
+//         * fakeWorldClinit =
+//         * cg.getNodes(ref.getDeclaredTarget()).iterator().next(); }
+//         */
+//      }
+//      Util.Assert(fakeWorldClinit != null, "Couldn't find fakeWorldClinit!");
     }
     return fakeWorldClinit;
   }
