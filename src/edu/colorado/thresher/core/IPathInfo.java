@@ -745,7 +745,15 @@ public class IPathInfo { // implements Comparable {
   public LinkedList<IStackFrame> getCallStack() {
     return callStack;
   }
-  
+
+  public Set<Pair<CGNode, SSACFG.BasicBlock>> getLoopHeadSet() {
+    return loopHeadSet;
+  }
+
+  public IQuery getInitialQuery() {
+    return initialQuery;
+  }
+
   @Override
   public String toString() {
     if (query == null) {
