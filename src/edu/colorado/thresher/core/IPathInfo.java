@@ -132,7 +132,7 @@ public class IPathInfo { // implements Comparable {
   }
 
   // constructor to be used only for deep copying
-  private IPathInfo(CGNode currentNode, SSACFG.BasicBlock currentBlock, SSACFG.BasicBlock lastBlock, int currentLineNum,
+  protected IPathInfo(CGNode currentNode, SSACFG.BasicBlock currentBlock, SSACFG.BasicBlock lastBlock, int currentLineNum,
       LinkedList<IStackFrame> callStack, Set<Pair<CGNode, SSACFG.BasicBlock>> loopHeadSet, IQuery query, IQuery initialQuery,
       PiecewiseGraph piecewiseGraph) {
     Util.Pre(currentBlock != null, "current block should not be null!");
@@ -315,7 +315,7 @@ public class IPathInfo { // implements Comparable {
     this.query.intersect(other.query);
   }
 
-  List<IPathInfo> handleQueryCaseSplitReturn(List<IQuery> caseSplits) {
+  protected List<IPathInfo> handleQueryCaseSplitReturn(List<IQuery> caseSplits) {
     if (caseSplits == IQuery.INFEASIBLE) {
       //Util.Debug("refuted by infeasible case splits");
       this.externallyRefuted = true; // this path and all case splits infeasible
@@ -754,6 +754,10 @@ public class IPathInfo { // implements Comparable {
     return initialQuery;
   }
 
+  public PiecewiseGraph getPiecewiseGraph() {
+    return piecewiseGraph;
+  }
+
   @Override
   public String toString() {
     if (query == null) {
@@ -763,7 +767,7 @@ public class IPathInfo { // implements Comparable {
     return this.getPathId() + " " + query.toString();
   }
 
-  static class PiecewiseGraph {
+  protected static class PiecewiseGraph {
     private final Set<Pair<CGNode, CGNode>> traversedEdges;
     private final Set<Pair<CGNode, CGNode>> skippedEdges;
     private final Set<CGNode> seenNodes;
