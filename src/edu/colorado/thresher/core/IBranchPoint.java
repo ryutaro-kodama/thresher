@@ -1,13 +1,10 @@
 package edu.colorado.thresher.core;
 
+import java.util.Comparator;
 import java.util.Set;
 
 import com.ibm.wala.ipa.callgraph.CGNode;
-import com.ibm.wala.ssa.IR;
-import com.ibm.wala.ssa.SSACFG;
-import com.ibm.wala.ssa.SSAConditionalBranchInstruction;
-import com.ibm.wala.ssa.SSAInstruction;
-import com.ibm.wala.ssa.SymbolTable;
+import com.ibm.wala.ssa.*;
 import com.ibm.wala.util.collections.HashSetFactory;
 
 /**
@@ -85,7 +82,13 @@ public class IBranchPoint {
     // "current path is in blk " + path.getCurrentBlock() +
     // "; branch point blk is " + this.blk);
     // true branch is always the first one
-    boolean trueBranch = this.ir.getControlFlowGraph().getNormalSuccessors(this.blk).iterator().next().equals(path.getLastBlock());
+
+    // FIXED:
+    // boolean trueBranch = this.ir.getControlFlowGraph().getNormalSuccessors(this.blk).iterator().next().equals(path.getLastBlock());
+    boolean trueBranch = this.ir.getControlFlowGraph().getNormalSuccessors(this.blk).stream()
+            .sorted(Comparator.comparing(ISSABasicBlock::getGraphNodeId))
+            .toArray()[0]
+            .equals(path.getLastBlock());
     Util.Debug("adding path " + path + " as " + trueBranch + " branch for " + id + ": " + this.instr);
     if (trueBranch) {
       IPathInfo.mergePathWithPathSet(path, truePaths);
