@@ -712,7 +712,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    * wrapper to handle slightly unorthodox return behavior of IPathInfo's
    * visit()
    */
-  boolean visitIPathInfoWrapper(SSAInstruction instr, IPathInfo info) {
+  protected boolean visitIPathInfoWrapper(SSAInstruction instr, IPathInfo info) {
     List<IPathInfo> caseSplits = info.visit(instr);
     if (caseSplits == IPathInfo.INFEASIBLE)
       return false; // infeasible
@@ -755,7 +755,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    * wrapper to handle slightly unorthodox return behavior of IPathInfo's
    * visit()
    */
-  boolean visitCalleeWrapper(SSAAbstractInvokeInstruction instr, CGNode callee, IPathInfo info) {
+  protected boolean visitCalleeWrapper(SSAAbstractInvokeInstruction instr, CGNode callee, IPathInfo info) {
     Util.Assert(instr instanceof SSAInvokeInstruction, "expecting invoke here");
     // if (callee.getIR() != null) Util.Print(callee.getIR().toString());
     List<IPathInfo> caseSplits = info.enterCall((SSAInvokeInstruction) instr, callGraph, callee);
@@ -774,7 +774,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    * 
    * @return - false if query is infeasible or path split, true otherwise
    */
-  boolean visitInvokeAsCallee(SSAAbstractInvokeInstruction instr, IPathInfo info) {
+  protected boolean visitInvokeAsCallee(SSAAbstractInvokeInstruction instr, IPathInfo info) {
     Set<CGNode> callees = callGraph.getPossibleTargets(info.getCurrentNode(), instr.getCallSite());
     // we get empty call sites when we don't have stubs for something
     if (callees.isEmpty()) {
