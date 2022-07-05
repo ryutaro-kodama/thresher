@@ -1,5 +1,7 @@
+edu\colorado\thresher\core\MainClass$UIQuery.class
 edu\colorado\thresher\core\FakeMapContextSelector$LenientClassHierarchyClassTargetSelector.class
 edu\colorado\thresher\core\PointerVariable.class
+edu\colorado\thresher\core\MainClass.class
 edu\colorado\thresher\core\DemandCastChecker$1.class
 edu\colorado\thresher\core\Util$1.class
 edu\colorado\thresher\core\AndroidUtils$AndroidButton.class
@@ -28,6 +30,7 @@ edu\colorado\thresher\external\Annotations$noStaticRef.class
 edu\colorado\thresher\core\AtomicPathConstraint$1.class
 edu\colorado\thresher\core\Options$stringOpt.class
 edu\colorado\thresher\core\IRTransformer.class
+edu\colorado\thresher\core\MainClass$MyAnalysisCacheImpl.class
 edu\colorado\thresher\core\BasicSymbolicExecutor.class
 edu\colorado\thresher\core\IPathInfo.class
 edu\colorado\thresher\core\DemandCastChecker$MyRefinementPolicy$Factory.class
@@ -60,9 +63,11 @@ edu\colorado\thresher\core\AndroidUIChecker.class
 edu\colorado\thresher\core\IStackFrame.class
 edu\colorado\thresher\core\DemandCastChecker$2.class
 edu\colorado\thresher\core\PointsToQuery.class
+edu\colorado\thresher\core\MainClass$CastCheckingResults.class
 edu\colorado\thresher\core\WALACFGUtil$DomComparator.class
 edu\colorado\thresher\core\ConcretePointerVariable.class
 edu\colorado\thresher\core\PointerStatement$1.class
 edu\colorado\thresher\core\Options$intOpt.class
+edu\colorado\thresher\core\MainClass$MyIRFactory.class
 edu\colorado\thresher\core\HeapGraphWrapper.class
 edu\colorado\thresher\core\PathQuery.class
