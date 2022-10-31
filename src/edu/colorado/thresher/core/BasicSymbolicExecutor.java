@@ -184,7 +184,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    * order that static initializers are invoked in, so we just (soundly) punt
    * here... fancier symbolic executors can override and do better
    */
-  boolean handleFakeWorldClinit(IPathInfo path) {
+  protected boolean handleFakeWorldClinit(IPathInfo path) {
     path.declareFakeWitness(); // concede a witness
     return true;
   }
@@ -200,7 +200,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    * @param path
    * @return true if some summary makes this path redundant, false otherwise
    */
-  boolean isPathInSummary(IPathInfo path) {
+  protected boolean isPathInSummary(IPathInfo path) {
     if (path.getCallStackDepth() != 0) return false; // TODO: match call stack?
     if (!Options.USE_SUMMARIES) return false;
     Set<IPathInfo> seen = seenPaths.get(path.getCurrentNode());
@@ -744,7 +744,7 @@ public class BasicSymbolicExecutor implements ISymbolicExecutor {
    *          - method we are returning from
    * @return - true if query is feasible after call, false otherwise
    */
-  boolean visitInvokeAsCaller(SSAAbstractInvokeInstruction instr, CGNode callee, IPathInfo info) {
+  protected boolean visitInvokeAsCaller(SSAAbstractInvokeInstruction instr, CGNode callee, IPathInfo info) {
     Util.Assert(instr instanceof SSAInvokeInstruction, "not sure how to handle non-invokes!");
     if (Options.DEBUG)
       Util.Debug(instr.toString());

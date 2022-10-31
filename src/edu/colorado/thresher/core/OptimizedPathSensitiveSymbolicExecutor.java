@@ -56,7 +56,7 @@ public class OptimizedPathSensitiveSymbolicExecutor extends PathSensitiveSymboli
    * @param path
    * @return true if some summary makes this path redundant, false otherwise
    */
-  boolean isPathInLoopHeadSummary(IPathInfo path) {
+  protected boolean isPathInLoopHeadSummary(IPathInfo path) {
     if (!Options.USE_SUMMARIES) return false;
     Set<IPathInfo> seen = loopHeadSeenPaths.get(path.getCurrentBlock());
     if (seen == null) {
@@ -864,7 +864,7 @@ public class OptimizedPathSensitiveSymbolicExecutor extends PathSensitiveSymboli
    * initializer can produce our constraints, and execute it if so
    */
   @Override
-  boolean handleFakeWorldClinit(IPathInfo path) {
+  protected boolean handleFakeWorldClinit(IPathInfo path) {
     if (Options.DEBUG) Util.Debug("trying to find witness in fakeWorldClinit");
     CGNode fakeWorldClinitNode = path.getCurrentNode();
     if (Options.DEBUG_ASSERTS) {
